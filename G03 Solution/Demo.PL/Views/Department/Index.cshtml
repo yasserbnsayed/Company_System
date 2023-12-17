@@ -1,0 +1,68 @@
+﻿
+@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "Index";
+
+    string VBagMessage = ViewBag.Message; // Does Not Enforce Type Safty (ViewBag is Loosly Typed)
+    string VDataMessage = ViewData["Message"] as string; // Enforce Type Safty (ViewData is Strongly Typed)
+
+}
+
+
+<h1>All Departments</h1>
+<br/>
+<br/>
+<a asp-action="Create" asp-controller="Department" class="btn btn-primary">Create New Department</a>
+<br/>
+
+@*<div class="alert alert-warning">
+    @ViewData["Message"]
+</div>
+
+<div class="mb-4 alert alert-warning">
+    @ViewBag.Message
+</div>*@
+
+@if (@TempData["Message"] != null)
+{
+    <div class="my-4 alert alert-warning">
+        @TempData["Message"]
+    </div>
+}
+
+@if(Model.Count() > 0)
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(D => D.Code)</th>
+                <th>@Html.DisplayNameFor(D => D.Name)</th>
+                <th>@Html.DisplayNameFor(D => D.DateOfCreation)</th>
+                <th>Details</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.Code</td>
+                    <td>@department.Name</td>
+                    <td>@department.DateOfCreation</td>
+
+                    <partial name="_ButtonsPartialView" model="@department.Id.ToString()"/>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}else
+{
+    <div class="mt-3 alert alert-warning">
+        <h4>There is No Department!</h4>
+    </div>
+}
+
+
